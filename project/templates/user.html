@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>User Page</title>
+	<style>
+      
+		
+		
+		.login {
+			text-align: center;
+			margin-top: 50px;
+		}
+		
+		.container {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			margin-top: 50px;
+		}
+		
+		button {
+			background-color: #4CAF50;
+			color: white;
+			padding: 12px 20px;
+			border: none;
+			border-radius: 4px;
+			cursor: pointer;
+			margin-top: 20px;
+		}
+		
+		button:hover {
+			background-color: #45a049;
+		}
+		
+		.login-btn {
+			background-color: #2196F3;
+		}
+		
+		.login-btn:hover {
+			background-color: #0b7dda;
+		}
+		
+		.signup-btn {
+			background-color: #555555;
+		}
+		
+		.signup-btn:hover {
+			background-color: #444444;
+		}
+      
+
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+      .header {
+        background-color: #333;
+        color: #fff;
+        padding: 10px;
+        text-align: center;
+      }
+      .left-panel {
+        background-color: #f2f2f2;
+        float: left;
+        height: 100%;
+        width: 20%;
+      }
+      .left-panel ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+      }
+      .left-panel li {
+        border-top: 1px solid #ddd;
+        padding: 10px;
+        text-align: center;
+      }
+      .left-panel li:first-child {
+        border-top: none;
+      }
+      .left-panel a {
+        color: #333;
+        text-decoration: none;
+      }
+      .left-panel a:hover {
+        color: #666;
+      }
+      .content {
+        margin-left: 20%;
+        padding: 10px;
+      }
+      .app-list {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+      }
+      .app-list li {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        margin-bottom: 10px;
+        padding: 10px;
+        transition: all 0.2s ease;
+        border-top: 1px solid #ddd;
+        padding: 31px 10px;
+        line-height: 1.5; 
+        width: 400px; 
+      }
+      .app-list li:hover {
+        box-shadow: 0px 0px 10px #ccc;
+      }
+      .app-list li span {
+        font-weight: bold;
+      }
+      .app-list li .points {
+        background-color: #a3de83;
+        color: #fff;
+        padding: 5px;
+        border-radius: 3px;
+        font-size: 12px;
+      }
+
+		#drop-zone {
+			width: 300px;
+			height: 300px;
+			border: 2px dashed gray;
+			padding: 10px;
+			text-align: center;
+			font-size: 24px;
+			margin: auto;
+		}
+
+		#drop-zone.hover {
+			background-color: #e0e0e0;
+		}
+
+		#upload-container {
+			text-align: center;
+		}
+    
+        .hmm {
+            text-decoration: none;
+
+        }
+      
+    </style>
+	
+</head>
+<body>
+    {% if user.is_authenticated %} 
+    <div class="header">
+        <h1>Hello {{ user.username }}!</h1>
+      </div>
+      <div class="left-panel">
+        <ul>
+          <li><a href="{% url 'home' %}">Home</a></li>
+          <li><a href="{% url 'task' %}">Tasks</a></li>
+          <li><a href="{% url 'points' %}">Points</a></li>
+          <li><a href="{% url 'logout' %}">Sign out</a></li>
+        </ul>
+      </div>
+      <div class="content">
+      <div class="content">
+        <ul class="app-list">
+          {% for app in apps %}
+          <a href="{% url 'my_view' href_value=app.name %}" class="hmm">
+         
+              <li>
+                  <span>{{ app.name }}</span>
+                  <span class="points">{{ app.points }} points</span>
+                </li>
+         
+             
+          </a>
+          {% empty %}
+          <li>No apps found.</li>
+          {% endfor %}
+        </ul>
+      </div>
+    {%else%}
+
+	<h1 class="login">Login or Sign Up</h1>
+	<div class="container">
+		<a href="login"><button class="login-btn">Login</button></a>
+        <a href="signup"><button class="signup-btn">Sign Up</button></a>
+		
+	</div>
+    {%endif%}
+    </div>
+</body>
+</html>

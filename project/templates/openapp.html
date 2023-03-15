@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Openapp</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+      .header {
+        background-color: #333;
+        color: #fff;
+        padding: 10px;
+        text-align: center;
+      }
+      .left-panel {
+        background-color: #f2f2f2;
+        float: left;
+        height: 100%;
+        width: 20%;
+      }
+      .left-panel ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+      }
+      .left-panel li {
+        border-top: 1px solid #ddd;
+        padding: 10px;
+        text-align: center;
+      }
+      .left-panel li:first-child {
+        border-top: none;
+      }
+      .left-panel a {
+        color: #333;
+        text-decoration: none;
+      }
+      .left-panel a:hover {
+        color: #666;
+      }
+      .content {
+        margin-left: 20%;
+        padding: 10px;
+      }
+      .app-list {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+      }
+      .app-list li {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        margin-bottom: 10px;
+        padding: 10px;
+        transition: all 0.2s ease;
+        border-top: 1px solid #ddd;
+        padding: 31px 10px; 
+        line-height: 1.5; 
+        width: 400px; 
+      }
+      .app-list li:hover {
+        box-shadow: 0px 0px 10px #ccc;
+      }
+      .app-list li span {
+        font-weight: bold;
+      }
+      .app-list li .points {
+        background-color: #a3de83;
+        color: #fff;
+        padding: 5px;
+        border-radius: 3px;
+        font-size: 12px;
+      }
+
+      #image-dropzone {
+      width: 400px;
+      height: 300px;
+      border: 2px dashed gray;
+      padding: 10px;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    #image-dropzone.highlight {
+      border-color: black;
+    }
+
+
+        .content {
+        margin-left: 20%;
+        padding: 10px;
+      }
+      .app-list {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+      }
+      .app-list li {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        margin-bottom: 10px;
+        padding: 10px;
+        transition: all 0.2s ease;
+        border-top: 1px solid #ddd;
+        padding: 31px 10px; 
+        line-height: 1.5; 
+        width: 400px; 
+      }
+
+      .app-list li:hover {
+        box-shadow: 0px 0px 10px #ccc;
+      }
+      .app-list li span {
+        font-weight: bold;
+      }
+      .app-list li .points {
+        background-color: #a3de83;
+        color: #fff;
+        padding: 5px;
+        border-radius: 3px;
+        font-size: 12px;
+      }
+
+      #image-upload-container {
+        margin-left: 21%;
+        
+}
+
+
+      
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <h1>Hello {{ user.username }}!</h1>
+    </div>
+    <div class="left-panel">
+      <ul>
+        <li><a href="{% url 'home' %}">Home</a></li>
+        <li><a href="{% url 'task' %}">Tasks</a></li>
+        <li><a href="{% url 'points' %}">Points</a></li>
+        <li><a href="{% url 'logout' %}">Sign out</a></li>
+      </ul>
+    </div>
+    <div class="content">
+        <div class="content">
+            <ul class="app-list"> 
+                  <li>
+                      <span>{{name}}</span>
+                      <span class="points">{{points}} points</span>
+                    </li>
+        </div>
+        {%if paid%}
+        <div id="image-upload-container">
+        <h2>This Task is Completed</h2>
+        </div>
+
+        {%else%}
+        <div id="image-upload-container">
+       
+
+        <form id="image-upload-form" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div id="image-dropzone">
+              <p>Click here to Select a Screenshot to complete the Task</p>
+              <input type="file" id="image-input" name="image" accept="image/*" style="display: none;">
+            </div>
+            <button type="submit">Upload Image</button>
+            <span id="filename"></span>
+          </form>
+        
+          <script>
+            const form = document.getElementById("image-upload-form");
+            const dropzone = document.getElementById("image-dropzone");
+            const filenameSpan = document.getElementById("filename");
+        
+           
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+              dropzone.addEventListener(eventName, preventDefaults, false);
+              document.body.addEventListener(eventName, preventDefaults, false);
+            });
+        
+           
+            ['dragenter', 'dragover'].forEach(eventName => {
+              dropzone.addEventListener(eventName, highlight, false);
+            });
+            ['dragleave', 'drop'].forEach(eventName => {
+              dropzone.addEventListener(eventName, unhighlight, false);
+            });
+        
+         
+            dropzone.addEventListener('drop', handleDrop, false);
+        
+        
+            dropzone.addEventListener('click', () => {
+              const imageInput = document.getElementById('image-input');
+              imageInput.click();
+            });
+        
+            const imageInput = document.getElementById('image-input');
+            imageInput.addEventListener('change', () => {
+              if (imageInput.files && imageInput.files[0]) {
+                filenameSpan.textContent = imageInput.files[0].name;
+              }
+            });
+        
+           
+            form.addEventListener('submit', event => {
+              if (!imageInput.files || !imageInput.files[0]) {
+                event.preventDefault();
+                alert('Please select an image to upload');
+              }
+            });
+        
+            function preventDefaults(event) {
+              event.preventDefault();
+              event.stopPropagation();
+            }
+        
+            function highlight(event) {
+              dropzone.classList.add('highlight');
+            }
+        
+            function unhighlight(event) {
+              dropzone.classList.remove('highlight');
+            }
+        
+            function handleDrop(event) {
+              const file = event.dataTransfer.files[0];
+              imageInput.files = new DataTransfer().items.add(file);
+              filenameSpan.textContent = file.name;
+              form.submit();
+            }
+          </script>
+          </div>
+
+        
+    
+    </div>
+    {%endif%}
+  </body>
+</html>

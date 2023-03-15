@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Admin Page</title>
+	<style>
+      
+		
+		
+		.login {
+			text-align: center;
+			margin-top: 50px;
+		}
+		
+		.container {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			margin-top: 50px;
+		}
+		
+		button {
+			background-color: #4CAF50;
+			color: white;
+			padding: 12px 20px;
+			border: none;
+			border-radius: 4px;
+			cursor: pointer;
+			margin-top: 20px;
+		}
+		
+		button:hover {
+			background-color: #45a049;
+		}
+		
+		.login-btn {
+			background-color: #2196F3;
+		}
+		
+		.login-btn:hover {
+			background-color: #0b7dda;
+		}
+		
+		.signup-btn {
+			background-color: #555555;
+		}
+		
+		.signup-btn:hover {
+			background-color: #444444;
+		}
+      
+
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+      .header {
+        background-color: #333;
+        color: #fff;
+        padding: 10px;
+        text-align: center;
+      }
+      .left-panel {
+        background-color: #f2f2f2;
+        float: left;
+        height: 100%;
+        width: 20%;
+	
+      }
+      .left-panel ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+      }
+      .left-panel li {
+        border-top: 1px solid #ddd;
+        padding: 10px;
+        text-align: center;
+      }
+      .left-panel li:first-child {
+        border-top: none;
+      }
+      .left-panel a {
+        color: #333;
+        text-decoration: none;
+      }
+      .left-panel a:hover {
+        color: #666;
+      }
+      .content {
+        margin-left: 20%;
+        padding: 10px;
+      }
+      .app-list {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+      }
+      .app-list li {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        margin-bottom: 10px;
+        padding: 10px;
+        transition: all 0.2s ease;
+        border-top: 1px solid #ddd;
+        padding: 31px 10px;
+        line-height: 1.5; 
+        width: 400px; 
+      }
+      .app-list li:hover {
+        box-shadow: 0px 0px 10px #ccc;
+      }
+      .app-list li span {
+        font-weight: bold;
+      }
+      .app-list li .points {
+        background-color: #a3de83;
+        color: #fff;
+        padding: 5px;
+        border-radius: 3px;
+        font-size: 12px;
+      }
+
+
+		#upload-container {
+			text-align: center;
+		}
+    
+        .hmm {
+            text-decoration: none;
+
+        }
+
+		#header {
+			background-color: #333;
+			color: #fff;
+			padding: 10px;
+			text-align: center;
+		}
+
+		#form-container {
+			background-color: #fff;
+			color: #333;
+			padding-right: 58%;
+		
+		}
+
+		form {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+		}
+
+		label {
+			margin-top: 10px;
+			font-size: 18px;
+			font-weight: bold;
+		}
+
+		input[type="text"], input[type="file"], button[type="button"], input[type="submit"] {
+			margin: 10px 0;
+			padding: 10px;
+			border: none;
+			border-radius: 5px;
+			font-size: 16px;
+			background-color: #f2f2f2;
+		}
+
+		button[type="button"], input[type="submit"] {
+			background-color: #333;
+			color: #fff;
+			cursor: pointer;
+		}
+
+		button[type="button"]:hover, input[type="submit"]:hover {
+			background-color: #555;
+		}
+		
+      
+    </style>
+	
+</head>
+<body>
+    <div class="header">
+        <h1>Hello Admin!</h1>
+      </div>
+      <div class="left-panel">
+        <ul>
+          <li><a href="{% url 'admin' %}">Home</a></li>
+          <li><a href="{% url 'addapps' %}">Add Apps</a></li>
+        </ul>
+      </div>
+      <div class="content">
+      <div class="content">
+		{%if not addapps%}
+        <ul class="app-list">
+			{%if apps%}
+          {% for app in apps %}
+         
+              <li>
+                  <span>{{ app.name }}</span>
+                  <span class="points">{{ app.points }} points</span>
+                </li>
+				{% endfor %}
+          
+        </ul>
+
+		{%else%}
+          <li>No apps added.</li>
+      </div>
+    </div>
+	{%endif%}
+	{%else%}
+
+
+	<div id="form-container">
+		<form action="#" method="post">
+			{% csrf_token %}
+			<label for="appname">App Name:</label>
+			<input type="text" id="appname" name="appname" placeholder="Enter app name" required>
+
+	
+			<label for="points">Add Points:</label>
+			<input type="number" id="points" name="points" min="0" value="0" required>
+
+			<input type="submit" value="Submit">
+		</form>
+	</div>
+
+	
+	{%endif%}
+
+	</body>
+	</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
